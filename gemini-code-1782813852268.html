@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Biến Đổi Câu Chi Tiết (Câu 51 - 100) - Ms Lê Hằng English</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Quicksand:wght=500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #1abc9c;
+            --primary-color: #ffffff;
+            --text-color: #2c3e50;
+            --correct-color: #2ecc71;
+            --correct-shadow: #27ae60;
+            --wrong-color: #e74c3c;
+            --wrong-shadow: #c0392b;
+        }
+
+        * { box-sizing: border-box; font-family: 'Nunito', 'Quicksand', sans-serif; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M10 5 L12 9 L16 9 L13 11 L14 15 L10 13 L6 15 L7 11 L4 9 L8 9 Z'/%3E%3Ccircle cx='45' cy='45' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+            min-height: 100vh; padding: 35px 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+        
+        header { width: 100%; max-width: 780px; text-align: center; margin-bottom: 25px; }
+        .teacher-title {
+            background: #ffffff; color: #16a085; font-weight: 900; font-size: 1.15rem;
+            padding: 12px 35px; border-radius: 30px; display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 2px solid #e2e8f0;
+        }
+
+        .alert-box {
+            background: #fff9db; border: 3px dashed #f59f00; border-radius: 24px;
+            padding: 22px; max-width: 780px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 30px; text-align: center;
+        }
+        .alert-box h3 { color: #d63031; font-size: 1.25rem; margin-bottom: 12px; font-weight: 900; }
+        .alert-box p { font-size: 1rem; color: #2c3e50; font-weight: 700; line-height: 1.7; }
+        .alert-box .notice-span { display: block; margin-top: 10px; color: #e67e22; font-weight: 900; font-style: italic; font-size: 1.05rem; }
+
+        .progress-box { width: 100%; max-width: 780px; background: rgba(255, 255, 255, 0.35); height: 14px; border-radius: 12px; margin-bottom: 30px; overflow: hidden; border: 1px solid rgba(255,255,255,0.5); }
+        .progress-fill { height: 100%; width: 0%; background: #ffffff; border-radius: 12px; transition: width 0.3s ease; }
+
+        .quiz-container { width: 100%; max-width: 780px; }
+
+        .card-item {
+            background: var(--primary-color); border-radius: 24px; padding: 28px; margin-bottom: 28px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
+        }
+
+        .card-title { font-size: 1.15rem; font-weight: 800; color: var(--text-color); line-height: 1.6; margin-bottom: 22px; }
+        
+        .options-box {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+
+        @media (max-width: 580px) {
+            .options-box { grid-template-columns: 1fr; }
+        }
+
+        .option-node {
+            background: #ffffff; border: 2px solid #e2e8f0; border-radius: 18px; padding: 16px; 
+            font-size: 1.02rem; font-weight: 700; text-align: left; cursor: pointer; 
+            transition: all 0.12s ease; color: var(--text-color); width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02); line-height: 1.4;
+        }
+
+        .option-node:hover:not(.locked) { background: #f8fafc; border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+        
+        .option-node.correct-state { background: var(--correct-color) !important; color: white !important; border-color: var(--correct-shadow) !important; font-weight: 800; }
+        .option-node.wrong-state { background: var(--wrong-color) !important; color: white !important; border-color: var(--wrong-shadow) !important; font-weight: 800; }
+        .locked { pointer-events: none; opacity: 0.6; } .locked.correct-state, .locked.wrong-state { opacity: 1; }
+
+        .exp-container { margin-top: 22px; background: #fdfbf7; border: 2px solid #f3e5ab; border-radius: 18px; padding: 20px; display: none; }
+        .exp-container.active { display: block; }
+        .exp-header { font-weight: 900; color: #b71c1c; margin-bottom: 10px; font-size: 1.05rem; }
+        .exp-row { font-size: 0.95rem; color: #2c3e50; margin-bottom: 12px; line-height: 1.6; padding-left: 12px; border-left: 4px solid #f1c40f; }
+        .exp-row:last-child { margin-bottom: 0; }
+        .exp-row strong { color: #2c3e50; font-weight: 800; }
+        .sub-opt { padding-left: 15px; margin-top: 4px; display: block; font-size: 0.92rem; color: #555; }
+
+        .btn-submit { background: #e67e22; color: white; border: none; border-bottom: 5px solid #d35400; padding: 18px; font-size: 1.3rem; font-weight: 800; border-radius: 22px; width: 100%; cursor: pointer; margin: 25px 0 60px 0; box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .btn-submit:active { transform: translateY(3px); border-bottom-width: 2px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <header>
+        <div class="teacher-title">Giáo viên tạo: Ms Lê Hằng English</div>
+    </header>
+
+    <div class="alert-box">
+        <h3>💡 PHÂN TÍCH GIẢI THÍCH CHI TIẾT TỪ MS LÊ HẰNG ENGLISH 💡</h3>
+        <p>
+            Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.<br>
+            Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!
+        </p>
+        <span class="notice-span">* Kéo tới đâu, làm tới đó! *</span>
+    </div>
+
+    <div class="progress-box"><div class="progress-fill" id="bar-fill"></div></div>
+    <div class="quiz-container" id="quiz-box"></div>
+    <div class="quiz-container"><button class="btn-submit" onclick="showScore()">🎉 NỘP BÀI XEM KẾT QUẢ 🎉</button></div>
+
+    <script>
+        const quizData = [
+            {
+                id: 51,
+                q: "Question 51: They used to sew every button on by hand.<br>→ Every button _______",
+                o: [
+                    "A. used to be sewn on by hand.",
+                    "B. used to sew on by hand by them.",
+                    "C. was used to sew on by hand.",
+                    "D. used to be sew on by hand."
+                ],
+                c: "A. used to be sewn on by hand.",
+                e: [
+                    "Dịch nghĩa câu gốc: Họ từng đơm từng chiếc khuy áo bằng tay.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc bị động với 'used to + be + P2' (sewn là phân từ hai của sew).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai nghĩa vì chia chủ động khiến chiếc khuy tự đơm chính nó.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai cấu trúc 'be used to V' mang nghĩa khác (được sử dụng để làm gì).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai vì giữ nguyên mẫu 'sew' đứng sau 'be' (bị động phải dùng phân từ hai).</span>",
+                    "Cấu trúc áp dụng: Bị động với cấu trúc thói quen quá khứ: <strong>S + used to + be + P2</strong>.",
+                    "Chủ ngữ mới 'Every button' là vật nên cần dùng thể bị động. Động từ 'sew' biến thành phân từ hai là 'sewn'."
+                ]
+            },
+            {
+                id: 52,
+                q: "Question 52: I prefer to go by myself.<br>→ I would _______",
+                o: [
+                    "A. rather go by myself.",
+                    "B. prefer to go by myself.",
+                    "C. rather to go by myself.",
+                    "D. prefer going by myself."
+                ],
+                c: "A. rather go by myself.",
+                e: [
+                    "Dịch nghĩa câu gốc: Tôi thích tự đi một mình hơn.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức 'would rather' đi với động từ nguyên mẫu không 'to'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Từ 'prefer' không đi với trợ động từ 'would' khi viết lại giữ nguyên cấu trúc 'to-V' độc lập kiểu này (would prefer đòi hỏi cấu trúc phức tạp hơn).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai ngữ pháp vì 'would rather' không bao giờ đi với động từ có 'to'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai ngữ pháp trầm trọng sau từ gợi ý 'would'.</span>",
+                    "Cấu trúc áp dụng: Diễn tả sự ưa thích tương đương: <strong>S + prefer + to-V = S + would rather + V-inf</strong>.",
+                    "Do câu bắt đầu bằng 'I would', ta dùng tiếp thành tố 'rather' đi kèm động từ nguyên mẫu không 'to' là 'go'."
+                ]
+            },
+            {
+                id: 53,
+                q: "Question 53: The police think the man holding the hostages is heavily armed.<br>→ The man holding _______",
+                o: [
+                    "A. the hostages is thought to be heavily armed.",
+                    "B. the hostages thinks to be heavily armed.",
+                    "C. the hostages is thought being heavily armed.",
+                    "D. is thought to hold the hostages heavily armed."
+                ],
+                c: "A. the hostages is thought to be heavily armed.",
+                e: [
+                    "Dịch nghĩa câu gốc: Cảnh sát nghĩ rằng người đàn ông đang bắt giữ con tin được trang bị vũ khí hạng nặng.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức bị động khách quan nâng cao dạng nguyên mẫu.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai nghĩa vì biến thành câu chủ động: 'Người đàn ông giữ con tin tự nghĩ...'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai dạng thức động từ vế sau ('is thought' đi với 'to-V' chứ không đi với 'V-ing').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sắp xếp sai trật tự thông tin cốt lõi làm sai nghĩa câu gốc.</span>",
+                    "Cấu trúc áp dụng: Câu bị động khách quan (Passive with reporting verbs): <strong>S2 + be + P2 (thought) + to + V-inf</strong> (khi hai vế cùng thì hiện tại).",
+                    "Chủ ngữ 2 đầy đủ là 'The man holding the hostages' (số ít) đi với 'is thought', động từ hệ từ 'is' lùi về nguyên mẫu có to thành 'to be'."
+                ]
+            },
+            {
+                id: 54,
+                q: "Question 54: It's a terrible pity I can't go there with you.<br>→ I wish _______",
+                o: [
+                    "A. I could go there with you.",
+                    "B. I can go there with you.",
+                    "C. I can't go there with you.",
+                    "D. I hadn't gone there with you."
+                ],
+                c: "A. I could go there with you.",
+                e: [
+                    "Dịch nghĩa câu gốc: Thật là một điều vô cùng đáng tiếc khi tôi không thể đi đến đó cùng bạn.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc câu ước trái ngược thực tế hiện tại.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai quy tắc vì chưa chịu lùi thì động từ khuyết thiếu ('can' giữ nguyên là sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai vì giữ nguyên thể phủ định khiến ý nghĩa không đúng bản chất lời ước.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai vì chia thì quá khứ hoàn thành (chỉ dùng cho ước trái quá khứ, bối cảnh gốc ở hiện tại 'can't').</span>",
+                    "Cấu trúc áp dụng: Câu ước loại 2 diễn tả ước muốn trái ngược thực trạng hiện tại: <strong>S + wish + S + V-ed / Modals ở quá khứ</strong>.",
+                    "Thực tế hiện tại là 'can't' (không thể), khi đưa vào câu ước ta chuyển sang thể khẳng định và lùi thì thành 'could'."
+                ]
+            },
+            {
+                id: 55,
+                q: "Question 55: Even though the guerrillas were short of ammunition, they won the battle.<br>→ Despite _______",
+                o: [
+                    "A. being short of ammunition, the guerrillas won the battle.",
+                    "B. the guerrillas were short of ammunition, they won the battle.",
+                    "C. short of ammunition, the guerrillas won the battle.",
+                    "D. of being short of ammunition, the guerrillas won the battle."
+                ],
+                c: "A. being short of ammunition, the guerrillas won the battle.",
+                e: [
+                    "Dịch nghĩa câu gốc: Mặc dù các du kích bị thiếu thốn đạn dược, họ vẫn giành chiến thắng trong trận chiến.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc rút gọn mệnh đề đồng chủ ngữ sang dạng V-ing.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì sau 'Despite' không được phép dùng một mệnh đề đầy đủ chứa động từ chia thì 'were'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Thiếu động từ bổ trợ danh động từ đứng sau liên từ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Thừa giới từ 'of' đứng liền sau 'Despite' (Despite không đi với of).</span>",
+                    "Cấu trúc áp dụng: Biến đổi mệnh đề nhượng bộ đồng chủ ngữ: <strong>Even though + S + V → Despite + V-ing / Noun phrase</strong>.",
+                    "Động từ tobe 'were' đưa về nguyên mẫu thêm ing thành 'being short of ammunition'. Lưu ý đưa danh từ 'the guerrillas' ra làm chủ ngữ vế sau để câu rõ nghĩa."
+                ]
+            },
+            {
+                id: 56,
+                q: "Question 56: The tourists were most impressed with the castle.<br>→ The castle made _______",
+                o: [
+                    "A. a deep impression on the tourists.",
+                    "B. the tourists impressed.",
+                    "C. the tourists to feel impressed.",
+                    "D. a most impression on the tourists."
+                ],
+                c: "A. a deep impression on the tourists.",
+                e: [
+                    "Dịch nghĩa câu gốc: Những khách du lịch bị ấn tượng mạnh mẽ nhất bởi tòa lâu đài.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc thành ngữ cố định chỉ sự tạo ấn tượng sâu sắc.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Thiếu trạng từ sắc thái để nhấn mạnh mức độ 'most impressed' của câu gốc.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai cấu trúc sau động từ make ('make sb + V-inf', dùng 'to feel' là sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Kết hợp sai cụm từ chỉ mức độ ấn tượng.</span>",
+                    "Cấu trúc áp dụng: Chuyển sang cụm danh từ cố định (Collocation): <strong>be impressed with sth = make a deep impression on sb</strong> (Tạo ấn tượng sâu sắc cho ai).",
+                    "Cụm 'a deep impression on' phản ánh hoàn hảo sắc thái trang trọng và mạnh mẽ của từ 'most impressed'."
+                ]
+            },
+            {
+                id: 57,
+                q: "Question 57: Although Tuan took a taxi, he still arrived late for the interview.<br>→ In spite _______",
+                o: [
+                    "A. of taking a taxi, Tuan still arrived late for the interview.",
+                    "B. Tuan took a taxi, he still arrived late.",
+                    "C. of Tuan took a taxi, he arrived late.",
+                    "D. taking a taxi, Tuan still arrived late."
+                ],
+                c: "A. of taking a taxi, Tuan still arrived late for the interview.",
+                e: [
+                    "Dịch nghĩa câu gốc: Mặc dù Tuấn đã đi taxi, anh ấy vẫn đến muộn trong buổi phỏng vấn.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng hoàn toàn công thức rút gọn V-ing đi liền 'In spite of'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Thiếu giới từ 'of' và dùng sai mệnh đề chia thì đứng sau.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai vì sau 'In spite of' không được dùng một mệnh đề chứa động từ chia thì 'took'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Thiếu hẳn giới từ 'of' bổ trợ bắt buộc của cấu trúc cụm từ.</span>",
+                    "Cấu trúc áp dụng: <strong>Although + S + V → In spite of + V-ing</strong> (khi hai mệnh đề có cùng chủ ngữ).",
+                    "Bắt buộc phải có giới từ 'of' đi sau 'In spite'. Động từ 'took' đưa về nguyên mẫu thêm ing thành 'taking a taxi', đưa tên riêng 'Tuan' làm chủ ngữ vế sau."
+                ]
+            },
+            {
+                id: 58,
+                q: "Question 58: We ought to leave the party now if we want to catch the last train.<br>→ If we don't _______",
+                o: [
+                    "A. leave the party now, we won't catch the last train.",
+                    "B. want to catch the last train, we leave now.",
+                    "C. leave the party now, we can catch the last train.",
+                    "D. don't leave the party now, we will miss."
+                ],
+                c: "A. leave the party now, we won't catch the last train.",
+                e: [
+                    "Dịch nghĩa câu gốc: Chúng ta nên rời khỏi bữa tiệc ngay bây giờ nếu muốn bắt kịp chuyến tàu cuối cùng.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng logic và cấu trúc điều kiện loại 1.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Dịch sai logic ý nghĩa điều kiện (Nếu không muốn bắt tàu thì rời đi -> ngược nghĩa).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai ý nghĩa kết quả vế sau ('không rời đi mà lại bắt được tàu' -> phi lý).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Lỗi lặp từ phủ định kép nghiêm trọng trong mệnh đề If ('If we don't don't').</span>",
+                    "Cấu trúc áp dụng: Câu điều kiện loại 1 chỉ một giả định có thật ở hiện tại/tương lai: <strong>If + S + don't + V-inf, S + won't + V-inf</strong>.",
+                    "Bản chất câu gốc mang tính điều kiện: Muốn bắt tàu thì phải về ngay. Suy ra nếu không về ngay 'If we don't leave...', chúng ta sẽ không kịp tàu 'we won't catch...'."
+                ]
+            },
+            {
+                id: 59,
+                q: "Question 59: Jane eats very little so as not to put on weight.<br>→ Jane eats very little because _______",
+                o: [
+                    "A. she doesn't want to put on weight.",
+                    "B. she wants to put on weight.",
+                    "C. not to put on weight.",
+                    "D. because she doesn't want to put on weight."
+                ],
+                c: "A. she doesn't want to put on weight.",
+                e: [
+                    "Dịch nghĩa câu gốc: Jane ăn rất ít để không bị tăng cân.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc mệnh đề chỉ nguyên nhân phù hợp ngữ cảnh.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Ngược nghĩa hoàn toàn bối cảnh nhịn ăn ('muốn tăng cân' là sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sau liên từ 'because' bắt buộc phải là một mệnh đề đầy đủ, không dùng 'to-V' ở đây.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Lặp thừa từ liên kết nguyên nhân ('because because').</span>",
+                    "Cấu trúc áp dụng: Chuyển từ cụm từ chỉ mục đích sang mệnh đề chỉ lý do: <strong>so as not to + V-inf (để không...) → because + mệnh đề chỉ nguyên nhân phủ định</strong>.",
+                    "Ăn ít để không tăng cân đồng nghĩa với việc ăn ít vì cô ấy không muốn bị tăng cân → 'because she doesn't want to put on weight'."
+                ]
+            },
+            {
+                id: 60,
+                q: "Question 60: \"Let's go abroad for our holiday this year\" said Mr Ba.<br>→ Mr Ba suggested _______",
+                o: [
+                    "A. going abroad for their holiday this year.",
+                    "B. to go abroad for their holiday this year.",
+                    "C. that they went abroad for holiday.",
+                    "D. they going abroad for holiday."
+                ],
+                c: "A. going abroad for their holiday this year.",
+                e: [
+                    "Dịch nghĩa câu gốc: \"Năm nay chúng ta hãy ra nước ngoài nghỉ lễ đi,\" ông Ba nói.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc gợi ý hành động chung có biến đổi tính từ sở hữu.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai ngữ pháp vì 'suggest' không bao giờ đi trực tiếp với động từ nguyên mẫu có to 'to-V'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai thì của động từ trong mệnh đề giả định (sau that động từ phải nguyên mẫu, dùng 'went' là sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Thiếu liên từ 'that' và cấu trúc mệnh đề giả định chưa chuẩn xác.</span>",
+                    "Cấu trúc áp dụng: Tường thuật câu rủ rê 'Let's + V-inf': <strong>S + suggested + V-ing</strong>.",
+                    "Hành động 'go' chuyển thành 'going', đồng thời biến đổi tính từ sở hữu thuộc về lời kể gián tiếp từ 'our' (của chúng ta) thành 'their' (của họ)."
+                ]
+            },
+            {
+                id: 61,
+                q: "Question 61: He is a slower speaker than my teacher.<br>→ He speaks _______",
+                o: [
+                    "A. more slowly than my teacher.",
+                    "B. slower than my teacher.",
+                    "C. as slowly as my teacher.",
+                    "D. more slow than my teacher."
+                ],
+                c: "A. more slowly than my teacher.",
+                e: [
+                    "Dịch nghĩa câu gốc: Anh ấy là một người nói chuyện chậm hơn giáo viên của tôi.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng quy tắc cấu tạo trạng từ dài bổ nghĩa động từ thường trong so sánh hơn.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Dùng 'slower' làm trạng từ thường chỉ dùng trong văn nói thân mật, không chuẩn ngữ pháp viết học thuật Chuyên Anh (phải dùng slowly).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Biến đổi sai lệch cấp so sánh (từ so sánh hơn sang so sánh bằng là sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai vì 'slow' là tính từ, không được dùng để bổ nghĩa cho động từ thường 'speaks'.</span>",
+                    "Cấu trúc áp dụng: Chuyển đổi cụm danh từ sang trạng từ so sánh hơn: <strong>S + be + a/an + Adj + speaker + than... → S + V (thường) + more + Adv + than...</strong>",
+                    "Động từ thường 'speaks' yêu cầu trạng từ bổ nghĩa là 'slowly'. Vì 'slowly' là trạng từ đuôi '-ly' (trạng từ dài) nên so sánh hơn phải dùng 'more slowly than'."
+                ]
+            },
+            {
+                id: 62,
+                q: "Question 62: Although the weather was bad, we went to school on time.<br>→ In spite of _______",
+                o: [
+                    "A. the bad weather, we went to school on time.",
+                    "B. the weather was bad, we went to school.",
+                    "C. being bad weather, we went to school on time.",
+                    "D. of the bad weather, we went to school."
+                ],
+                c: "A. the bad weather, we went to school on time.",
+                e: [
+                    "Dịch nghĩa câu gốc: Mặc dù thời tiết rất xấu, chúng tôi vẫn đến trường đúng giờ.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc cụm danh từ xác định đứng sau hệ liên từ cụm.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì sau 'In spite of' không được dùng một mệnh đề đầy đủ chứa động từ chia thì 'was'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Cách dùng danh động từ 'being' ở bối cảnh chủ ngữ thời tiết giả tạo cấu từ không tự nhiên.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Lỗi lặp thừa hai lần giới từ 'of' do đề bài đã cho sẵn từ 'of' rồi.</span>",
+                    "Cấu trúc áp dụng: Chuyển đổi mệnh đề nhượng bộ sang cụm danh từ: <strong>Although + S + be + Adj + N → In spite of + the + Adj + N</strong>.",
+                    "Mệnh đề 'the weather was bad' dễ dàng cô đọng lại thành một cụm danh từ hoàn chỉnh đứng sau giới từ: 'the bad weather', vế kết quả phía sau giữ nguyên."
+                ]
+            },
+            {
+                id: 63,
+                q: "Question 63: \"Are you leaving for Ha Noi tomorrow morning?\" he said to me.<br>→ He asked _______",
+                o: [
+                    "A. me if I was leaving for Ha Noi the following morning.",
+                    "B. me whether was I leaving for Ha Noi tomorrow morning.",
+                    "C. if you were leaving for Ha Noi the next morning.",
+                    "D. me if I am leaving for Ha Noi the following morning."
+                ],
+                c: "A. me if I was leaving for Ha Noi the following morning.",
+                e: [
+                    "Dịch nghĩa câu gốc: \"Sáng mai cậu sẽ lên đường đi Hà Nội à?\" anh ấy hỏi tôi.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng quy tắc câu hỏi gián tiếp Yes/No (đổi đại từ, lùi thì, đổi trạng từ chỉ thời gian).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì vẫn giữ trật tự đảo ngữ câu hỏi 'was I' và chưa đổi trạng từ 'tomorrow morning'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Chưa đổi đại từ nhân xưng phù hợp người nghe ('you' giữ nguyên là sai ngữ cảnh kể lại với me).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai vì chưa chịu lùi thì động từ ('am leaving' giữ ở hiện tại là sai).</span>",
+                    "Cấu trúc áp dụng: Tường thuật câu hỏi Yes/No: <strong>S + asked + me + if/whether + S + V (lùi thì) + trạng từ biến đổi</strong>.",
+                    "Đại từ 'you' ứng với 'me' chuyển thành chủ ngữ 'I'. Thì hiện tại tiếp diễn lùi về quá khứ tiếp diễn 'was leaving'. Trạng từ 'tomorrow morning' biến đổi thành 'the following morning' hoặc 'the next morning'."
+                ]
+            },
+            {
+                id: 64,
+                q: "Question 64: It's a pity I don't know his address.<br>→ I wish _______",
+                o: [
+                    "A. I knew his address.",
+                    "B. I know his address.",
+                    "C. I didn't know his address.",
+                    "D. I had known his address."
+                ],
+                c: "A. I knew his address.",
+                e: [
+                    "Dịch nghĩa câu gốc: Thật đáng tiếc khi tôi không biết địa chỉ của anh ấy.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc ước trái ngược sự thật hiện tại bộc lộ qua động từ quá khứ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì giữ nguyên động từ hiện tại 'know' (bắt buộc câu ước phải lùi thì).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Giữ nguyên phủ định khiến câu ước mang nghĩa tiêu cực phi lý.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai vì dùng quá khứ hoàn thành (ước trái quá khứ, trong khi thực tế câu gốc ở hiện tại 'don't know').</span>",
+                    "Cấu trúc áp dụng: Câu ước loại 2 (trái thực tế hiện tại): <strong>S + wish + S + V-ed / Quá khứ đơn</strong>.",
+                    "Thực tế hiện tại phủ định 'don't know' được lùi thì và chuyển thành thể khẳng định quá khứ đơn của động từ know là 'knew'."
+                ]
+            },
+            {
+                id: 65,
+                q: "Question 65: Unless he changes his way of living, he'll meet a lot of troubles.<br>→ If _______",
+                o: [
+                    "A. he doesn't change his way of living, he'll meet a lot of troubles.",
+                    "B. he changes his way of living, he'll meet a lot of troubles.",
+                    "C. he doesn't change his way of living, he won't meet troubles.",
+                    "D. he didn't change his way of living, he would meet."
+                ],
+                c: "A. he doesn't change his way of living, he'll meet a lot of troubles.",
+                e: [
+                    "Dịch nghĩa câu gốc: Trừ khi anh ấy thay đổi cách sống của mình, anh ấy sẽ gặp rất nhiều rắc rối.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng quy tắc chuyển đổi tương đương mệnh đề điều kiện loại 1 thể phủ định.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Ngược nghĩa hoàn toàn (Nếu thay đổi cách sống thì lại gặp rắc rối -> sai logic).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Viết sai lệch ý nghĩa kết quả mệnh đề sau.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Đổi sai loại câu điều kiện (xuống loại 2 giả định quá khứ là không hợp bối cảnh thực tế loại 1).</span>",
+                    "Cấu trúc áp dụng: Biến đổi liên từ bất biến: <strong>Unless = If... not</strong>.",
+                    "Mệnh đề 'Unless he changes' tương đương vế phủ định hiện tại đơn của ngôi thứ ba số ít: 'If he doesn't change', vế kết quả phía sau giữ nguyên vẹn."
+                ]
+            },
+            {
+                id: 66,
+                q: "Question 66: His parents made him study hard for the exam.<br>→ He _______",
+                o: [
+                    "A. was made to study hard for the exam by his parents.",
+                    "B. was made study hard for the exam by his parents.",
+                    "C. made him study hard for the exam.",
+                    "D. was make to study hard for the exam."
+                ],
+                c: "A. was made to study hard for the exam by his parents.",
+                e: [
+                    "Dịch nghĩa câu gốc: Bố mẹ anh ấy đã bắt ép anh ấy phải học hành chăm chỉ cho kỳ thi.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng hoàn toàn quy tắc bị động của động từ sai khiến có 'to-V'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Thiếu từ 'to' kết nối động từ sau cấu trúc bị động (đây là cái bẫy kinh điển học sinh rất hay mắc).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai cấu trúc vì biến chủ ngữ 'He' thành hành vi đi ép buộc lại chính mình.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai dạng động từ phân từ bị động sau tobe ('make' chưa đổi thành 'made').</span>",
+                    "Cấu trúc áp dụng: Bị động của cấu trúc sai khiến với Make: <strong>Chủ động: S + make + sb + V-inf → Bị động: S (người) + be + made + to-V</strong>.",
+                    "Tân ngữ 'him' đưa lên làm chủ ngữ 'He' (số ít quá khứ đơn → 'was made'), động từ nguyên mẫu 'study' bắt buộc phải thêm to thành 'to study'."
+                ]
+            },
+            {
+                id: 67,
+                q: "Question 67: \"Why don't you ask your teacher for advice?\" my brother said to me.<br>→ My brother _______",
+                o: [
+                    "A. advised me to ask my teacher for advice.",
+                    "B. suggested me to ask my teacher for advice.",
+                    "C. said to me why I don't ask my teacher for advice.",
+                    "D. advised me ask my teacher for advice."
+                ],
+                c: "A. advised me to ask my teacher for advice.",
+                e: [
+                    "Dịch nghĩa câu gốc: \"Tại sao em không xin lời khuyên từ giáo viên của mình nhỉ?\" anh trai tôi nói với tôi.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc lời khuyên gián tiếp đi kèm động từ có to.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai ngữ pháp trầm trọng vì 'suggest' không bao giờ đi với cấu trúc 'suggest sb to do sth'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Tường thuật sai quy tắc trần thuật gián tiếp giữ nguyên cấu từ câu hỏi hiện tại.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Thiếu từ 'to' đứng trước động từ hành vi nguyên mẫu sau tân ngữ của từ advise.</span>",
+                    "Cấu trúc áp dụng: Tường thuật mẫu câu đưa ra lời khuyên 'Why don't you...?': <strong>S + advised + sb + to + V-inf</strong>.",
+                    "Chuyển hành động sang động từ khuyên bảo 'advised me', động từ chính thêm to thành 'to ask'. Tính từ sở hữu 'your' chuyển sang 'my' hợp bối cảnh kể lại."
+                ]
+            },
+            {
+                id: 68,
+                q: "Question 68: It's such a difficult question that I can't find the answer.<br>→ The question is _______",
+                o: [
+                    "A. so difficult that I can't find the answer.",
+                    "B. such difficult that I can't find the answer.",
+                    "C. too difficult for me to find the answer to it.",
+                    "D. so a difficult question that I can't find the answer."
+                ],
+                c: "A. so difficult that I can't find the answer.",
+                e: [
+                    "Dịch nghĩa câu gốc: Đó là một câu hỏi khó đến mức tôi không thể tìm ra câu trả lời.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức biến đổi sang kết cấu so... that tính từ đứng độc lập.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì 'such' không đi trực tiếp với tính từ đứng một mình mà không có danh từ đằng sau.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai quy tắc vì để lại tân ngữ đại từ 'it' ở cuối câu cấu trúc dùng 'too... to' khi chủ ngữ vật đứng đầu đã trùng đối tượng.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai vì sau 'so' không đi kèm cụm từ chứa mạo từ đứng trước tính từ kiểu này ('so a difficult' là hoàn toàn sai).</span>",
+                    "Cấu trúc áp dụng: Hoán đổi cấu trúc nguyên nhân kết quả: <strong>It + be + such + a/an + Adj + N + that... → S + be + so + Adj + that...</strong>",
+                    "Đưa chủ ngữ 'The question' lên đầu kết hợp hệ từ 'is', tính từ độc lập 'difficult' đặt ngay sau từ 'so', vế mệnh đề kết quả phía sau giữ nguyên vẹn."
+                ]
+            },
+            {
+                id: 69,
+                q: "Question 69: John and Nam have been pen pals for over two years.<br>→ John and Nam became _______",
+                o: [
+                    "A. pen pals over two years ago.",
+                    "B. pen pals for over two years.",
+                    "C. pen pals since over two years.",
+                    "D. became pen pals over two years."
+                ],
+                c: "A. pen pals over two years ago.",
+                e: [
+                    "Dịch nghĩa câu gốc: John và Nam đã là bạn qua thư của nhau được hơn hai năm rồi.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc quá khứ đơn mốc thời điểm bắt đầu đi kèm từ chỉ thời gian quá khứ ago.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Động từ hành vi bắt đầu 'became' là hành động thời điểm, không được đi với giới từ kéo dài 'for'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Dùng sai giới từ chỉ thời gian cố định mốc điểm.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Lặp thừa từ gợi ý của đề bài khiến câu bị lỗi cú pháp văn bản.</span>",
+                    "Cấu trúc áp dụng: Chuyển đổi dòng thời gian: <strong>S + have/has + been + N/Adj + for + khoảng thời gian → S + became + N/Adj + khoảng thời gian + ago</strong>.",
+                    "Hành động bắt đầu làm bạn xảy ra ở một thời điểm xác định trong quá khứ, vì vậy ta bỏ giới từ 'for' và thêm trạng từ 'ago' vào sau khoảng thời gian."
+                ]
+            },
+            {
+                id: 70,
+                q: "Question 70: Lan always passed the mosque on Hang Luoc Street when she went to primary school.<br>→ Lan _______",
+                o: [
+                    "A. used to pass the mosque on Hang Luoc Street when she went to primary school.",
+                    "B. always used to passed the mosque on Hang Luoc Street.",
+                    "C. used to passing the mosque on Hang Luoc Street.",
+                    "D. was used to pass the mosque on Hang Luoc Street."
+                ],
+                c: "A. used to pass the mosque on Hang Luoc Street when she went to primary school.",
+                e: [
+                    "Dịch nghĩa câu gốc: Lan luôn luôn đi ngang qua nhà thờ Hồi giáo trên phố Hàng Lược khi cô ấy đi học tiểu học.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức thói quen quá khứ nguyên mẫu tinh giản trạng từ tần suất.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì giữ lại động từ cột 2 'passed' sau used to và lặp thừa từ thói quen hiện trạng 'always'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai cấu trúc dạng động từ đuôi '-ing' khi chỉ thói quen cũ đã chấm dứt.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai cấu trúc hệ động từ tobe đi kèm nguyên mẫu.</span>",
+                    "Cấu trúc áp dụng: <strong>S + always + V-ed → S + used to + V-inf</strong> diễn tả một thói quen thường xuyên làm trong quá khứ nay không còn nữa.",
+                    "Bỏ trạng từ tần suất 'always', chuyển động từ quá khứ 'passed' về nguyên mẫu không chia thành 'pass' đứng sau cụm thói quen 'used to'."
+                ]
+            },
+            {
+                id: 71,
+                q: "Question 71: They wish they could stay longer.<br>→ They would rather their _______",
+                o: [
+                    "A. stay were longer.",
+                    "B. stay could be longer.",
+                    "C. stay had been longer.",
+                    "D. stay would be longer."
+                ],
+                c: "A. stay were longer.",
+                e: [
+                    "Dịch nghĩa câu gốc: Họ ước rằng họ có thể ở lại lâu hơn.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc giả định trái hiện tại sau từ sở hữu biến tính từ danh từ đứng đầu.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Phối hợp thừa thãi từ khuyết thiếu sau kết cấu danh từ sở hữu giả định.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai thì quá khứ hoàn thành (chỉ dùng giả định trái quá khứ).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Không dùng trợ động từ 'would' lặp lại trong mệnh đề giả định sau would rather.</span>",
+                    "Cấu trúc áp dụng: Câu giả định mong muốn với would rather cho hiện tại (đổi cấu từ từ động từ sang danh từ sở hữu): <strong>S1 + would rather + S2 (danh từ sở hữu: their stay) + V-ed / Were</strong>.",
+                    "Từ 'stay' đóng vai trò danh từ cuộc ở lại sau tính từ sở hữu 'their'. Giả định trái hiện tại yêu cầu động từ tobe lùi về quá khứ giả định thành 'were'."
+                ]
+            },
+            {
+                id: 72,
+                q: "Question 72: It seems very difficult for Mai to have a trip abroad.<br>→ Having a trip _______",
+                o: [
+                    "A. abroad seems very difficult for Mai.",
+                    "B. abroad seems to be very difficult for Mai.",
+                    "C. abroad is seemed very difficult for Mai.",
+                    "D. to abroad seems very difficult for Mai."
+                ],
+                c: "A. abroad seems very difficult for Mai.",
+                e: [
+                    "Dịch nghĩa câu gốc: Việc có một chuyến đi ra nước ngoài dường như rất khó khăn đối với Mai.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức đưa danh động từ lên làm chủ ngữ kết hợp động từ nối trạng thái.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Thừa cụm từ hệ 'to be' làm câu rườm rà không tối ưu hóa ngắn gọn chuẩn Chuyên Anh.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai vì động từ liên kết trạng thái 'seem' không bao giờ được chia ở thể bị động ('is seemed' là hoàn toàn sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Dùng sai ngữ pháp giới từ trước trạng từ chỉ vị trí phương hướng ('to abroad' là sai, từ abroad đứng độc lập).</span>",
+                    "Cấu trúc áp dụng: Đảo danh động từ làm chủ ngữ chính số ít: <strong>It + seems + Adj + for sb + to-V $\rightarrow$ V-ing + seems + Adj + for sb</strong>.",
+                    "Đưa cụm 'Having a trip abroad' lên đầu làm chủ ngữ chính số ít, động từ liên kết giữ nguyên hiện tại thêm s 'seems' đi liền tính từ bổ nghĩa 'difficult'."
+                ]
+            },
+            {
+                id: 73,
+                q: "Question 73: She works in the evenings so she doesn't usually get up early.<br>→ She's not used to _______",
+                o: [
+                    "A. getting up early.",
+                    "B. get up early.",
+                    "C. getting up late.",
+                    "D. get up late."
+                ],
+                c: "A. getting up early.",
+                e: [
+                    "Dịch nghĩa câu gốc: Cô ấy làm việc vào các buổi tối vì vậy cô ấy thường không thức dậy sớm.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức chỉ sự quen thuộc thói quen dạng V-ing khớp nghĩa gốc.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai dạng động từ nguyên mẫu đứng sau kết cấu hệ từ phủ định chỉ thói quen thích nghi.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Làm đảo lộn sai lệch ý nghĩa hành động bối cảnh ('không quen dậy muộn' -> sai lệch hoàn toàn).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Vừa sai dạng động từ vừa sai từ vựng ngữ cảnh.</span>",
+                    "Cấu trúc áp dụng: <strong>S + don't/doesn't + usually + V-inf = S + be + not + used to + V-ing</strong> (Ai đó không quen với việc làm gì ở hiện tại).",
+                    "Vì đề bài đã cho sẵn cụm phủ định hiện tại 'She's not used to', ta chỉ cần đưa động từ 'get' về dạng danh động từ thêm ing thành 'getting up early'."
+                ]
+            },
+            {
+                id: 74,
+                q: "Question 74: Children between the age of 6 and 16 have to go to school in Malaysia.<br>→ Education is _______",
+                o: [
+                    "A. compulsory for children between the age of 6 and 16 in Malaysia.",
+                    "B. compulsory with children between the age of 6 and 16 in Malaysia.",
+                    "C. necessary that children have to go to school in Malaysia.",
+                    "D. required for children go to school in Malaysia."
+                ],
+                c: "A. compulsory for children between the age of 6 and 16 in Malaysia.",
+                e: [
+                    "Dịch nghĩa câu gốc: Trẻ em trong độ tuổi từ 6 đến 16 bắt buộc phải đi học ở Malaysia.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng tính từ chỉ tính chất bắt buộc đi kèm giới từ quy ước chỉ đối tượng.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Dùng sai giới từ đi kèm sau tính từ bắt buộc giáo dục ('compulsory with' là sai, phải là 'for').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Diễn đạt rườm rà lặp nghĩa chưa đạt chuẩn cấu từ Chuyên Anh nâng cao.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai ngữ pháp kết nối động từ nguyên mẫu đứng sau giới từ.</span>",
+                    "Cấu trúc áp dụng: Chuyển đổi từ động từ khuyết thiếu mang tính ép buộc sang tính từ tương đương: <strong>S + have to + V-inf $\rightarrow$ Education is + compulsory + for + đối tượng</strong> (Giáo dục là bắt buộc đối với...).",
+                    "Tính từ 'compulsory' mang ý nghĩa bắt buộc theo luật định, phản ánh chuẩn xác sắc thái của cụm 'have to go to school'."
+                ]
+            },
+            {
+                id: 75,
+                q: "Question 75: Due to the traffic in Viet Nam, foreign tourists prefer walking to driving.<br>→ Foreign tourists would rather _______",
+                o: [
+                    "A. walk than drive due to the traffic in Viet Nam.",
+                    "B. walking than driving due to the traffic in Viet Nam.",
+                    "C. walk to drive due to the traffic in Viet Nam.",
+                    "D. rather walk than drive."
+                ],
+                c: "A. walk than drive due to the traffic in Viet Nam.",
+                e: [
+                    "Dịch nghĩa câu gốc: Do tình hình giao thông ở Việt Nam, khách du lịch nước ngoài thích đi bộ hơn lái xe.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc thích cái gì hơn cái gì đi liền động từ nguyên mẫu không to của would rather.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai dạng động từ đuôi ing sau cấu trúc khuyết thiếu sở thích.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Kết hợp sai từ nối so sánh lựa chọn giữa hai hành động (would rather đi với liên từ 'than', không đi với 'to').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Lặp thừa từ gợi ý đề bài và thiếu hẳn vế nguyên nhân cốt lõi thông tin.</span>",
+                    "Cấu trúc áp dụng: Công thức hoán đổi sở thích lựa chọn: <strong>S + prefer + V-ing 1 + to + V-ing 2 $\rightarrow$ S + would rather + V-inf 1 + than + V-inf 2</strong>.",
+                    "Chuyển đổi hai danh động từ 'walking', 'driving' về dạng nguyên mẫu không to là 'walk', 'drive' kẹp giữa liên từ so sánh bắt buộc 'than'."
+                ]
+            },
+            {
+                id: 76,
+                q: "Question 76: Carol usually went to a lot of parties but she doesn't now.<br>→ Carol _______",
+                o: [
+                    "A. used to go to a lot of parties.",
+                    "B. usually used to go to a lot of parties.",
+                    "C. used to going to a lot of parties.",
+                    "D. didn't use to go to a lot of parties."
+                ],
+                c: "A. used to go to a lot of parties.",
+                e: [
+                    "Dịch nghĩa câu gốc: Carol đã từng thường xuyên đi đến rất nhiều bữa tiệc nhưng bây giờ thì không còn nữa.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng hoàn toàn công thức thói quen cũ đã chấm dứt hoàn toàn ở hiện tại.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Lặp từ thừa trạng từ hiện tại bối cảnh thói quen cũ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai dạng động từ đuôi '-ing' đứng sau used to chỉ thói quen quá khứ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Viết sai thể khẳng định sang phủ định làm đảo lộn hoàn toàn nghĩa gốc câu đề bài.</span>",
+                    "Cấu trúc áp dụng: Tương tự câu số 3 và 4, công thức cốt lõi thói quen quá khứ: <strong>S + used to + V-inf</strong>.",
+                    "Vế sau 'but she doesn't now' chứng minh hành động đi tiệc từng là thói quen đã chấm dứt, ta thu gọn toàn bộ câu thành cụm: 'Carol used to go to a lot of parties'."
+                ]
+            },
+            {
+                id: 77,
+                q: "Question 77: Maryam is sorry that she has to leave Viet Nam tomorrow.<br>→ Maryam wishes _______",
+                o: [
+                    "A. she didn't have to leave Viet Nam tomorrow.",
+                    "B. she doesn't have to leave Viet Nam tomorrow.",
+                    "C. she wouldn't have to leave Viet Nam tomorrow.",
+                    "D. she hadn't to leave Viet Nam tomorrow."
+                ],
+                c: "A. she didn't have to leave Viet Nam tomorrow.",
+                e: [
+                    "Dịch nghĩa câu gốc: Maryam lấy làm tiếc vì cô ấy phải rời khỏi Việt Nam vào ngày mai.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc câu ước trái ngược thực tế tương lai gần/hiện trạng bắt buộc có lùi thì.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì giữ nguyên trợ động từ phủ định hiện tại 'doesn't' (không lùi thì là sai quy tắc câu ước).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Cách dùng từ khuyết thiếu kết hợp chưa thật sự tối ưu sát nghĩa bắt buộc của từ gốc 'has to'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai ngữ pháp vì thể phủ định quá khứ của động từ thường 'have to' bắt buộc phải dùng trợ động từ 'didn't have to', không dùng 'hadn't to'.</span>",
+                    "Cấu trúc áp dụng: Câu ước loại 2 diễn tả một mong muốn trái ngược với một nghĩa vụ, thực tế ở hiện tại/tương lai gần: <strong>S + wish + S + didn't + have to + V-inf</strong>.",
+                    "Thực tế khẳng định là phải rời đi 'has to leave', khi ước ao ta chuyển sang phủ định quá khứ đơn tương ứng là 'didn't have to leave'."
+                ]
+            },
+            {
+                id: 78,
+                q: "Question 78: Young people didn't usually wear jeans at the beginning of the 20th century.<br>→ Young people didn't _______",
+                o: [
+                    "A. use to wear jeans at the beginning of the 20th century.",
+                    "B. used to wear jeans at the beginning of the 20th century.",
+                    "C. usually use to wear jeans.",
+                    "D. use to wearing jeans at the beginning."
+                ],
+                c: "A. use to wear jeans at the beginning of the 20th century.",
+                e: [
+                    "Dịch nghĩa câu gốc: Những người trẻ tuổi không thường xuyên mặc quần bò vào đầu thế kỷ 20.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc phủ định thói quen quá khứ nguyên mẫu sau trợ động từ did.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì quên không bỏ đuôi 'd' của từ 'use' khi câu đã có trợ động từ phủ định quá khứ 'didn't' đứng trước.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Lập từ rườm rà thiếu thành tố thông tin mốc thời gian lịch sử quan trọng.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai dạng động từ đuôi '-ing' đứng sau kết cấu phủ định thói quen cũ.</span>",
+                    "Cấu trúc áp dụng: Công thức phủ định thói quen quá khứ: <strong>S + didn't + use to + V-inf</strong> (Đã từng không thường làm gì).",
+                    "Do từ gợi ý của đề bài đã cho sẵn từ phủ định 'Young people didn't', ta hoàn chỉnh vế tiếp theo bằng dạng nguyên mẫu bỏ 'd' là 'use to wear'."
+                ]
+            },
+            {
+                id: 79,
+                q: "Question 79: He started designing clothes more than twenty years ago.<br>→ He has been _______",
+                o: [
+                    "A. designing clothes for more than twenty years.",
+                    "B. started designing clothes for over twenty years.",
+                    "C. designing clothes since more than twenty years.",
+                    "D. designing clothes more than twenty years ago."
+                ],
+                c: "A. designing clothes for more than twenty years.",
+                e: [
+                    "Dịch nghĩa câu gốc: Anh ấy đã bắt đầu thiết kế quần áo cách đây hơn hai mươi năm.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc Hiện tại hoàn thành tiếp diễn kết hợp khoảng thời gian giới từ for.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì giữ lại động từ thời điểm bắt đầu khởi hành 'started' đứng trong thì hiện tại hoàn thành kéo dài.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Dùng sai giới từ thời gian mốc điểm ('since' không đi với khoảng năm kéo dài 'more than twenty years').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Giữ nguyên trạng từ quá khứ đơn 'ago' trong câu hiện tại hoàn thành là hoàn toàn sai ngữ pháp.</span>",
+                    "Cấu trúc áp dụng: Tương tự câu số 15, chuyển đổi dòng thời gian hành động kéo dài: <strong>S + started + V-ing + thời gian + ago $\rightarrow$ S + have/has + been + V-ing + for + thời gian</strong>.",
+                    "Lược bỏ nhóm từ quá khứ 'started ... ago', giữ nguyên hành động kéo dài liên tục 'designing clothes' đi liền giới từ chỉ khoảng thời gian là 'for'."
+                ]
+            },
+            {
+                id: 80,
+                q: "Question 80: An experienced tailor can complete a kimono in a single day.<br>→ A kimono _______",
+                o: [
+                    "A. can be completed by an experienced tailor in a single day.",
+                    "B. can complete by an experienced tailor in a single day.",
+                    "C. can be complete by an experienced tailor.",
+                    "D. is completed by an experienced tailor in a single day."
+                ],
+                c: "A. can be completed by an experienced tailor in a single day.",
+                e: [
+                    "Dịch nghĩa câu gốc: Một thợ may có kinh nghiệm có thể hoàn thành một bộ đồ kimono chỉ trong một ngày duy nhất.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng hoàn chỉnh cấu trúc bị động động từ khuyết thiếu nguyên mẫu phân từ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai thể vì viết dạng chủ động khiến bộ đồ kimono tự đi hoàn thành công việc.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai vì giữ nguyên động từ nguyên mẫu 'complete' đứng sau từ 'be' ở thể bị động.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Đổi sai lệch từ khuyết thiếu gốc của câu sang hiện tại đơn đại trà ('is completed' làm mất chữ can).</span>",
+                    "Cấu trúc áp dụng: Câu bị động với động từ khuyết thiếu Can: <strong>S + can + be + P2 + (by + O)</strong>.",
+                    "Đưa tân ngữ vật 'A kimono' lên đầu câu, kết hợp cấu trúc bị động khuyết thiếu tương ứng 'can be completed', tác nhân người đứng sau giới từ 'by'."
+                ]
+            },
+            {
+                id: 81,
+                q: "Question 81: I'd rather not take that exam tomorrow.<br>→ I wish _______",
+                o: [
+                    "A. I didn't have to take that exam tomorrow.",
+                    "B. I wouldn't take that exam tomorrow.",
+                    "C. I haven't to take that exam tomorrow.",
+                    "D. I hadn't taken that exam tomorrow."
+                ],
+                c: "A. I didn't have to take that exam tomorrow.",
+                e: [
+                    "Dịch nghĩa câu gốc: Tôi thà rằng không phải tham gia kỳ thi đó vào ngày mai.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc ước ao không phải thực hiện nghĩa vụ tương lai gần/hiện tại có lùi thì.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Dùng kết cấu ước 'wouldn't' không sát thực ý nghĩa trốn tránh bổn phận bắt buộc của kỳ thi.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Không bao giờ tồn tại thì hiện tại hoàn thành hay hiện tại đơn phủ định đứng trực tiếp sau từ ước wish.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai vì chia thì quá khứ hoàn thành (chỉ dùng ước trái ngược sự thật quá khứ, bối cảnh ở đây có từ ngày mai 'tomorrow').</span>",
+                    "Cấu trúc áp dụng: Chuyển đổi từ sở thích trốn tránh nghĩa vụ sang câu ước tương thích: <strong>S + 'd rather not + V-inf $\rightarrow$ S + wish + S + didn't + have to + V-inf</strong>.",
+                    "Thà không muốn làm bài thi nghĩa là ước gì mình không bắt buộc phải làm bài thi đó, dùng trợ động từ phủ định quá khứ đơn 'didn't have to'."
+                ]
+            },
+            {
+                id: 82,
+                q: "Question 82: This is his first visit to the National Museum.<br>→ He has _______",
+                o: [
+                    "A. never visited the National Museum before.",
+                    "B. visited the National Museum before.",
+                    "C. first visited the National Museum.",
+                    "D. has been visiting the National Museum for the first time."
+                ],
+                c: "A. never visited the National Museum before.",
+                e: [
+                    "Dịch nghĩa câu gốc: Đây là lần đầu tiên anh ấy đến thăm Bảo tàng Quốc gia.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc phủ định hoàn toàn trải nghiệm trước đây có trạng từ before.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Viết dạng khẳng định làm sai ý nghĩa câu đề (biến thành anh ấy đã từng thăm trước đây rồi -> không còn là lần đầu).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Ghép từ sai nguyên tắc ngữ pháp thì hiện tại hoàn thành trải nghiệm.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Diễn đạt sai cấu trúc lặp thừa rườm rà từ chỉ số lần.</span>",
+                    "Cấu trúc áp dụng: Chuyển đổi kinh điển trải nghiệm đầu đời: <strong>This is the first time + S + V (Hiện tại hoàn thành khẳng định) $\rightarrow$ S + have/has + never + P2 + before</strong> (Ai đó chưa bao giờ làm việc gì trước đây).",
+                    "Bản chất lần đầu tiên làm đồng nghĩa chưa bao giờ làm việc đó trước đây, phối hợp từ phủ định tuyệt đối 'never' đứng trước động từ phân từ hai 'visited' và từ chốt chặn 'before' ở cuối."
+                ]
+            },
+            {
+                id: 83,
+                q: "Question 83: Most people can understand him when he speaks Malay.<br>→ He can make _______",
+                o: [
+                    "A. himself understood when he speaks Malay.",
+                    "B. most people to understand him when he speaks Malay.",
+                    "C. himself understand when he speaks Malay.",
+                    "D. everyone understand him when he speaks Malay."
+                ],
+                c: "A. himself understood when he speaks Malay.",
+                e: [
+                    "Dịch nghĩa câu gốc: Hầu hết mọi người đều có thể hiểu được anh ấy khi anh ấy nói tiếng Mã Lai.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc đặc biệt phản thân bị động với động từ make nâng cao Chuyên Anh.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai ngữ pháp vì động từ 'make' không đi với cấu trúc có từ 'to' ('make sb to do' là sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Dùng dạng nguyên mẫu 'understand' làm sai bản chất bị động phản thân (anh ta tự đi hiểu người khác -> sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Đổi sai từ chỉ định đối tượng số đông của câu gốc ('Most people' đổi thành 'everyone' là lệch nghĩa).</span>",
+                    "Cấu trúc áp dụng: Cấu trúc phản thân bị động nâng cao Chuyên Anh: <strong>make oneself understood</strong> (làm cho bản thân được người khác hiểu/diễn đạt trôi chảy khiến ai cũng hiểu được).",
+                    "Sử dụng đại từ phản thân ứng với chủ ngữ He là 'himself' kết hợp phân từ hai bị động 'understood' đứng sau từ cầu khiến 'make'."
+                ]
+            },
+            {
+                id: 84,
+                q: "Question 84: Could I borrow your surfboard please?<br>→ Would you _______",
+                o: [
+                    "A. mind lending me your surfboard?",
+                    "B. like to borrow me your surfboard?",
+                    "C. mind if I borrow your surfboard?",
+                    "D. rather lend me your surfboard?"
+                ],
+                c: "A. mind lending me your surfboard?",
+                e: [
+                    "Dịch nghĩa câu gốc: Tôi có thể mượn ván lướt sóng của bạn được không làm ơn?",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc xin phép lịch sự hành vi hoán đổi mượn - cho mượn dạng V-ing.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sử dụng sai động từ ('borrow' là đi mượn từ ai, đối phương cho mượn phải dùng động từ lend).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai thì động từ sau mệnh đề 'if' của cấu trúc phiền hà lịch sự ('Would you mind if I' bắt buộc đi với động từ quá khứ đơn 'borrowed').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai công thức cấu tạo của cụm từ chỉ lựa chọn sở thích.</span>",
+                    "Cấu trúc áp dụng: Xin phép làm gì đó hoán đổi động từ trái nghĩa: <strong>Could I borrow...? (Tôi mượn được không) $\rightarrow$ Would you mind lending me...?</strong> (Bạn có phiền cho tôi mượn không?).",
+                    "Động từ 'borrow' (mượn) đổi sang góc nhìn người nghe thành 'lend' (cho mượn) thêm đuôi ing đứng trực tiếp sau từ hỏi lịch sự 'Would you mind'."
+                ]
+            },
+            {
+                id: 85,
+                q: "Question 85: My parents didn't let me stay out late when I was younger.<br>→ I _______",
+                o: [
+                    "A. was not allowed to stay out late by my parents when I was younger.",
+                    "B. was not let to stay out late by my parents.",
+                    "C. didn't allowed to stay out late by my parents.",
+                    "D. was not let stay out late by my parents."
+                ],
+                c: "A. was not allowed to stay out late by my parents when I was younger.",
+                e: [
+                    "Dịch nghĩa câu gốc: Bố mẹ tôi đã không cho phép tôi ở ngoài muộn khi tôi còn trẻ.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức câu bị động cho phép hành động đi liền động từ có to.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Từ 'let' không bao giờ được chia ở thể bị động đi kèm cấu trúc động từ 'to-V' kiểu này trong tiếng Anh chuẩn.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Phối hợp sai cấu trúc bị động (thiếu động từ tobe quá khứ).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Cách dùng bị động của từ let không được chấp nhận trong ngữ pháp viết học thuật học đường.</span>",
+                    "Cấu trúc áp dụng: Chuyển đổi bị động của từ cho phép: <strong>Chủ động: S + didn't + let + sb + V-inf $\rightarrow$ Bị động: S (người) + be + not + allowed + to-V</strong>.",
+                    "Tân ngữ 'me' đưa lên làm chủ ngữ 'I' số ít quá khứ đơn phủ định đi liền cụm bị động quy ước 'was not allowed', động từ chính thêm to thành 'to stay'."
+                ]
+            },
+            {
+                id: 86,
+                q: "Question 86: They have just introduced a new style of jeans.<br>→ A new style _______",
+                o: [
+                    "A. of jeans has just been introduced.",
+                    "B. of jeans have just been introduced.",
+                    "C. has just been introduced a new style of jeans.",
+                    "D. of jeans was just introduced."
+                ],
+                c: "A. of jeans has just been introduced.",
+                e: [
+                    "Dịch nghĩa câu gốc: Họ vừa mới giới thiệu một kiểu quần bò mới.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức bị động số ít thì Hiện tại hoàn thành (chủ ngữ lõi là 'A new style').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai hòa hợp chủ vị (học sinh nhìn nhầm từ 'jeans' số nhiều liền chọn 'have' là dính bẫy, chủ ngữ thực sự đứng đầu là cụm số ít 'A new style').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sắp xếp từ ngữ lộn xộn vi phạm quy tắc đảo ngữ câu bị động.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Đổi sai thì động từ gốc của đề bài sang Quá khứ đơn.</span>",
+                    "Cấu trúc áp dụng: Câu bị động thì Hiện tại hoàn thành có trạng từ trạng thái: <strong>Chủ ngữ mới (số ít) + has + just + been + P2</strong>.",
+                    "Cụm từ chủ ngữ đầy đủ là 'A new style of jeans'. Danh từ quyết định chia trợ động từ là từ đứng trước giới từ 'A new style' (số ít) nên bắt buộc chọn trợ động từ 'has'."
+                ]
+            },
+            {
+                id: 87,
+                q: "Question 87: What a pity. I'm not lying on a beautiful sunny beach!<br>→ I wish _______",
+                o: [
+                    "A. I were lying on a beautiful sunny beach.",
+                    "B. I am lying on a beautiful sunny beach.",
+                    "C. I wasn't lying on a beautiful sunny beach.",
+                    "D. I had been lying on a beautiful sunny beach."
+                ],
+                c: "A. I were lying on a beautiful sunny beach.",
+                e: [
+                    "Dịch nghĩa câu gốc: Đáng tiếc làm sao. Tôi đang không được nằm dài trên một bãi biển đầy nắng đẹp đẽ!",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc ước trái ngược thực trạng hành động đang diễn ra hiện tại.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai quy tắc câu ước hiện tại vì giữ nguyên hệ từ 'am' (bắt buộc phải lùi thì).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Giữ phủ định làm câu ước mang nghĩa tiêu cực sai bối cảnh mong mỏi.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Đổi sang Quá khứ hoàn thành tiếp diễn chỉ dùng khi tình huống gốc diễn ra ở quá khứ.</span>",
+                    "Cấu trúc áp dụng: Câu ước giả định hành động đang xảy ra hiện tại (Wish for present continuous): <strong>S + wish + S + were + V-ing</strong>.",
+                    "Thực trạng hiện tại đang phủ định tiếp diễn 'I'm not lying', lùi thì thời gian sang khẳng định giả định quá khứ dùng hệ từ số nhiều cho mọi ngôi là 'were' đi liền 'lying'."
+                ]
+            },
+            {
+                id: 88,
+                q: "Question 88: Dane wishes he had spoken his mind at the meeting.<br>→ Dane regretted _______",
+                o: [
+                    "A. not speaking his mind at the meeting.",
+                    "B. speaking his mind at the meeting.",
+                    "C. to not speak his mind at the meeting.",
+                    "D. not to speak his mind at the meeting."
+                ],
+                c: "A. not speaking his mind at the meeting.",
+                e: [
+                    "Dịch nghĩa câu gốc: Dane ước rằng anh ấy đã nói ra suy nghĩ thật của mình tại cuộc họp.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc hối hận vì đã không thực hiện hành vi quá khứ dạng phủ định V-ing.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Ngược nghĩa hoàn toàn (biến thành hối hận vì đã nói ra suy nghĩ -> trái đề bài).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Động từ hối hận việc quá khứ không đi với dạng nguyên mẫu có to 'to-V'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai dạng công thức cấu tạo của động từ hối hận sự việc.</span>",
+                    "Cấu trúc áp dụng: Chuyển ước muốn quá khứ hoàn thành sang cấu trúc hối hận: <strong>S + wish + S + had + P2 $\rightarrow$ S + regretted + (not) + V-ing</strong> (Hối hận vì đã/đã không làm gì trong quá khứ).",
+                    "Ước đã nói nghĩa là thực tế quá khứ chưa nói, suy ra anh ấy hối hận vì đã không nói ra → thêm từ phủ định 'not' đứng trước động từ dạng đuôi ing 'speaking'."
+                ]
+            },
+            {
+                id: 89,
+                q: "Question 89: The police must be phoned immediately.<br>→ Someone _______",
+                o: [
+                    "A. must phone the police immediately.",
+                    "B. must be phoned the police immediately.",
+                    "C. has to phoned the police immediately.",
+                    "D. must phone immediately the police."
+                ],
+                c: "A. must phone the police immediately.",
+                e: [
+                    "Dịch nghĩa câu gốc: Cảnh sát phải được gọi điện thông báo ngay lập tức.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc chủ động động từ khuyết thiếu đi kèm nguyên mẫu không to.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Viết dạng bị động rườm rà sai ngữ pháp cấu từ khi có tân ngữ đứng sau.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Chia sai dạng động từ đuôi ed sau từ chỉ nghĩa vụ bắt buộc 'has to'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Đặt sai vị trí trạng từ chen giữa động từ thường và tân ngữ trực tiếp ('phone immediately the police' là sai trật tự từ).</span>",
+                    "Cấu trúc áp dụng: Hoán đổi từ câu bị động khuyết thiếu sang chủ động đại từ bất định: <strong>S (vật) + must + be + P2 $\rightarrow$ Someone + must + V-inf + O</strong>.",
+                    "Đại từ bất định đứng đầu là 'Someone', giữ nguyên động từ khuyết thiếu 'must', đưa động từ 'phoned' về dạng nguyên mẫu không chia là 'phone' đi liền tân ngữ 'the police'."
+                ]
+            },
+            {
+                id: 90,
+                q: "Question 90: Is that the place where you lived before?<br>→ Did you use _______",
+                o: [
+                    "A. to live in that place before?",
+                    "B. to living in that place before?",
+                    "C. used to live in that place?",
+                    "D. use live in that place before?"
+                ],
+                c: "A. to live in that place before?",
+                e: [
+                    "Dịch nghĩa câu gốc: Đó có phải là nơi mà bạn từng sinh sống trước đây không?",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc câu hỏi nghi vấn thói quen trạng thái cũ quá khứ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai dạng động từ đuôi '-ing' đứng sau kết cấu chỉ thói quen cũ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai vì giữ nguyên chữ 'd' trong từ 'used' khi câu hỏi đã mượn trợ động từ quá khứ 'Did' đứng đầu câu.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Thiếu từ 'to' kết nối động từ nguyên mẫu đứng sau.</span>",
+                    "Cấu trúc áp dụng: Nghi vấn thói quen trạng thái cũ quá khứ: <strong>Did + S + use to + V-inf?</strong>",
+                    "Do đề bài đã mồi sẵn từ trợ động từ nghi vấn quá khứ 'Did you use', ta điền tiếp thành tố cấu trúc là 'to live' kết hợp trạng ngữ chỉ địa điểm tương ứng ngữ cảnh 'in that place before'."
+                ]
+            },
+            {
+                id: 91,
+                q: "Question 91: This is the best concert I have ever been to.<br>→ I've never been _______",
+                o: [
+                    "A. to a better concert than this.",
+                    "B. to the best concert than this.",
+                    "C. to a good concert like this.",
+                    "D. to a better concert like this."
+                ],
+                c: "A. to a better concert than this.",
+                e: [
+                    "Dịch nghĩa câu gốc: Đây là buổi hòa nhạc tuyệt vời nhất mà tôi từng được tham dự.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng công thức hoán đổi từ so sánh nhất sang cấu trúc phủ định tuyệt đối của so sánh hơn.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Kết hợp sai quy tắc giữa tính từ so sánh nhất và liên từ so sánh hơn ('the best... than' là hoàn toàn sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Chưa đẩy lên được mức độ đỉnh cao của tính từ so sánh sắc thái câu gốc.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Phối hợp sai từ nối so sánh vế cuối.</span>",
+                    "Cấu trúc áp dụng: Công thức hoán đổi cấu trúc so sánh kinh điển Chuyên Anh: <strong>This is the + tính từ so sánh nhất + N + S + have ever + P2 $\rightarrow$ S + have + never + P2 + to + a/an + tính từ so sánh hơn + N + than this</strong>.",
+                    "Buổi hòa nhạc tốt nhất nghĩa là tôi chưa từng đi xem buổi hòa nhạc nào tốt hơn buổi này, chuyển tính từ 'best' sang dạng so sánh hơn là 'better' đi liền liên từ so sánh hơn 'than this'."
+                ]
+            },
+            {
+                id: 92,
+                q: "Question 92: There is no need for you to do any work if you don't feel like it.<br>→ If you don't feel _______",
+                o: [
+                    "A. like it, you don't have to do any work.",
+                    "B. like doing any work, you needn't do.",
+                    "C. like it, you mustn't do any work.",
+                    "D. comfortable, you no need to do any work."
+                ],
+                c: "A. like it, you don't have to do any work.",
+                e: [
+                    "Dịch nghĩa câu gốc: Bạn không cần thiết phải làm bất cứ công việc nào nếu như bạn không thích/không muốn.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng logic ngữ cảnh cấu tạo câu ghép điều kiện không bắt buộc.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Cách gom từ và tinh giản hành động vế sau làm câu bị cụt nghĩa chưa chính xác.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Dùng sai từ khuyết thiếu mang nghĩa cấm đoán 'mustn't' làm sai lệch hoàn toàn bản chất tự do của đề bài.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Thay đổi sai từ vựng cốt lõi bối cảnh cảm xúc và cấu tạo lỗi ngữ pháp 'no need'.</span>",
+                    "Cấu trúc áp dụng: Chuyển đổi vế giả định vị trí kết hợp cụm không bắt buộc: <strong>There is no need for sb to-V $\rightarrow$ S + don't/doesn't have to + V-inf</strong>.",
+                    "Đảo mệnh đề điều kiện 'If you don't feel like it' lên vị trí mở đầu, mệnh đề chính vế sau diễn đạt tính chất không ép buộc bằng cụm từ 'you don't have to do any work'."
+                ]
+            },
+            {
+                id: 93,
+                q: "Question 93: It's Linda's sixteenth birthday on Wednesday.<br>→ Linda will _______",
+                o: [
+                    "A. be sixteen on Wednesday.",
+                    "B. have sixteen birthday on Wednesday.",
+                    "C. turn to sixteen years old on Wednesday.",
+                    "D. celebrate her sixteenth birthday on Wednesday."
+                ],
+                c: "A. be sixteen on Wednesday.",
+                e: [
+                    "Dịch nghĩa câu gốc: Vào thứ Tư tới là sinh nhật lần thứ mười sáu của Linda.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc nói về tuổi tác tương lai tự nhiên, ngắn gọn chuẩn xác nhất văn phong Anh Mỹ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Cách dùng động từ thường 'have' sở hữu tuổi tác là sai quy tắc cấu từ tiếng Anh.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Dùng sai cụm từ nối diễn đạt bước sang tuổi ('turn sixteen' chứ không dùng giới từ 'turn to sixteen').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Dù đúng ngữ pháp nhưng không ngắn gọn và mang tính khách quan tự nhiên bằng cách dùng động từ hệ 'be' của phương án A.</span>",
+                    "Cấu trúc áp dụng: Diễn đạt tuổi tác trong tương lai với động từ khuyết thiếu dự đoán tương lai chắc chắn: <strong>S + will + be + số tuổi + mốc thời gian</strong>.",
+                    "Đến sinh nhật 16 tuổi nghĩa là cô ấy sẽ tròn 16 tuổi, ta dùng động từ hệ nguyên mẫu 'be' đi liền số tuổi dạng số đếm 'sixteen'."
+                ]
+            },
+            {
+                id: 94,
+                q: "Question 94: \"How good are your English speaking skills?\" she asked Hoa.<br>→ She asked _______",
+                o: [
+                    "A. Hoa how good her English speaking skills were.",
+                    "B. Hoa how good were her English speaking skills.",
+                    "C. Hoa how good her English speaking skills are.",
+                    "D. how good Hoa's English speaking skills was."
+                ],
+                c: "A. Hoa how good her English speaking skills were.",
+                e: [
+                    "Dịch nghĩa câu gốc: \"Kỹ năng nói tiếng Anh của em tốt đến mức nào vậy?\" cô ấy hỏi Hoa.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng quy tắc câu gián tiếp trần thuật câu hỏi từ nối (đổi đại từ sở hữu, lùi thì số nhiều, không đảo ngữ).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì vẫn giữ trật tự đảo ngữ câu hỏi động từ lên trước chủ ngữ ('were her...').</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai vì chưa lùi thì động từ hệ từ về quá khứ ('are' giữ nguyên là sai).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai hòa hợp chủ vị vì lùi thì số ít 'was' cho cụm chủ ngữ số nhiều tận cùng chữ s 'skills'.</span>",
+                    "Cấu trúc áp dụng: Tường thuật câu hỏi chứa từ để hỏi mức độ: <strong>S + asked + tân ngữ người + How + Adj + S + V (lùi thì)</strong>.",
+                    "Từ nối giữ nguyên 'how good'. Tính từ sở hữu 'your' tương ứng với người nghe là Hoa đổi thành 'her'. Chủ ngữ số nhiều 'skills' yêu cầu động từ lùi thì số nhiều là 'were' đặt ở cuối câu."
+                ]
+            },
+            {
+                id: 95,
+                q: "Question 95: Can I offer you a cup of coffee?<br>→ Would you _______",
+                o: [
+                    "A. like a cup of coffee?",
+                    "B. like me to offer you a cup of coffee?",
+                    "C. mind a cup of coffee?",
+                    "D. rather have a cup of coffee?"
+                ],
+                c: "A. like a cup of coffee?",
+                e: [
+                    "Dịch nghĩa câu gốc: Tôi có thể mời bạn một tách cà phê được không?",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng mẫu câu mời mọc lịch sự ngắn gọn, cô đọng tinh tế chuẩn bản xứ nhất.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Dù đúng ngữ pháp nhưng cách viết lặp lại từ 'offer' làm câu bị rườm rà, không đạt tiêu chí câu viết lại tối ưu học thuật Chuyên Anh.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai cấu từ ngữ nghĩa mời ăn uống lịch sự.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Cấu trúc chỉ sở thích lựa chọn cá nhân chưa hợp văn cảnh lời mời trực tiếp đón tiếp khách.</span>",
+                    "Cấu trúc áp dụng: Mẫu câu mời mọc đồ ăn thức uống tương đương: <strong>Can I offer you + món ăn/đồ uống? $\rightarrow$ Would you like + món ăn/đồ uống?</strong> (Bạn có muốn dùng... không?).",
+                    "Lắp trực tiếp danh từ đồ uống 'a cup of coffee' vào sau từ mồi đầu bài 'Would you' đi kèm thành tố mời lịch sự 'like'."
+                ]
+            },
+            {
+                id: 96,
+                q: "Question 96: \"Will you send me some details of the course and fees?\" Mr. John asked the manager.<br>→ Mr. John asked the manager _______",
+                o: [
+                    "A. if he would send him some details of the course and fees.",
+                    "B. whether will he send him some details of the course and fees.",
+                    "C. if the manager will send me some details.",
+                    "D. if he could send me some details of the course."
+                ],
+                c: "A. if he would send him some details of the course and fees.",
+                e: [
+                    "Dịch nghĩa câu gốc: \"Ông có thể gửi cho tôi một vài thông tin chi tiết về khóa học và học phí được không?\" ông John hỏi người quản lý.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng quy tắc câu gián tiếp câu hỏi khuyết thiếu yêu cầu (thêm if, đổi đại từ người nói người nghe, lùi thì).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai vì giữ nguyên trợ động từ khuyết thiếu thời tương lai 'will' đứng đảo ngữ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Chưa chịu lùi thì động từ 'will' và chưa đổi đại từ tân ngữ người nghe 'me'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Đổi sai lệch từ khuyết thiếu gốc của đề bài (từ 'will' lùi thành 'would', không tự ý đổi sang 'could') và chưa đổi chữ 'me'.</span>",
+                    "Cấu trúc áp dụng: Tường thuật câu hỏi nghi vấn khuyết thiếu tương lai: <strong>S + asked + O + if/whether + S + would + V-inf</strong>.",
+                    "Chủ ngữ 'you' ứng với người quản lý đổi thành 'he'. Trợ động từ khuyết thiếu 'will' lùi thì thành 'would'. Đại từ tân ngữ 'me' ứng với ông John đổi thành 'him'."
+                ]
+            },
+            {
+                id: 97,
+                q: "Question 97: He hasn't said anything. He seems to be disappointed about it.<br>→ Although _______",
+                o: [
+                    "A. he hasn't said anything, he seems to be disappointed about it.",
+                    "B. he hasn't said anything, but he seems to be disappointed about it.",
+                    "C. he seems to be disappointed about it, he hasn't said anything.",
+                    "D. he hasn't said anything, he seemed to be disappointed."
+                ],
+                c: "A. he hasn't said anything, he seems to be disappointed about it.",
+                e: [
+                    "Dịch nghĩa câu gốc: Anh ấy chưa nói bất cứ điều gì. Anh ấy có vẻ như đang thất vọng về điều đó.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc và logic ý nghĩa tương phản giữa việc im lặng và cảm xúc.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai lỗi ngữ pháp kinh điển của người Việt vì sử dụng đồng thời cả liên từ 'Although' và liên từ 'but' trong cùng một câu ghép.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Đảo sai vị trí hai mệnh đề làm đảo lộn nội dung logic nguyên nhân thực trạng.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Tự ý thay đổi làm sai lệch thì động từ vế sau sang quá khứ đơn 'seemed'.</span>",
+                    "Cấu trúc áp dụng: Ghép câu tương phản dùng liên từ nhượng bộ đứng đầu: <strong>Although + Mệnh đề 1, Mệnh đề 2</strong> (Tuyệt đối không có 'but' ở giữa).",
+                    "Mặc dù anh ta không nói gì, anh ta vẫn có vẻ thất vọng. Đặt mệnh đề im lặng đứng sau 'Although', ngăn cách bằng dấu phẩy và nối liền mệnh đề cảm xúc."
+                ]
+            },
+            {
+                id: 98,
+                q: "Question 98: His mother died last year. He looked after her over 20 years.<br>→ His mother, whom _______",
+                o: [
+                    "A. he looked after over 20 years, died last year.",
+                    "B. he looked after her over 20 years, died last year.",
+                    "C. he looked after over 20 years died last year.",
+                    "D. whom he looked after over 20 years, died last year."
+                ],
+                c: "A. he looked after over 20 years, died last year.",
+                e: [
+                    "Dịch nghĩa câu gốc: Mẹ của anh ấy đã qua đời vào năm ngoái. Anh ấy đã chăm sóc bà suốt hơn 20 năm.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng quy tắc đại từ quan hệ thay thế tân ngữ người đứng giữa mệnh đề không xác định có dấu phẩy chặn hai đầu.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai quy tắc nghiêm trọng vì giữ lại đại từ tân ngữ trùng lặp 'her' (đại từ quan hệ 'whom' đã thay thế cho bà mẹ rồi).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai lỗi cú pháp vì thiếu các dấu phẩy định hình thành phần mệnh đề quan hệ không xác định cho danh từ riêng sở hữu đứng đầu.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Lập từ thừa thãi do đề bài mồi sẵn chữ 'whom' lại gõ lại chữ 'whom' đằng trước dấu phẩy.</span>",
+                    "Cấu trúc áp dụng: Mệnh đề quan hệ không xác định (Non-defining relative clause): <strong>Danh từ riêng sở hữu, whom + S + V, V chính + thành phần phụ</strong>.",
+                    "Do đề bài mồi sẵn cụm: 'His mother, whom', ta viết tiếp mệnh đề quan hệ lược bỏ từ 'her' là 'he looked after over 20 years', đóng dấu phẩy rồi điền vế động từ chính còn lại là 'died last year'."
+                ]
+            },
+            {
+                id: 99,
+                q: "Question 99: Nhung is talking with a girl with blond hair.<br>→ The girl with _______",
+                o: [
+                    "A. blond hair whom Nhung is talking with is very beautiful.",
+                    "B. blond hair Nhung is talking with her.",
+                    "C. whom Nhung is talking with has blond hair.",
+                    "D. blond hair is talking with Nhung."
+                ],
+                c: "A. blond hair whom Nhung is talking with is very beautiful.",
+                e: [
+                    "Dịch nghĩa câu gốc: Nhung đang trò chuyện với một cô gái có mái tóc vàng hoe.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc bổ ngữ cụm danh từ kết hợp mệnh đề quan hệ xác định.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Thiếu động từ chính vế kết quả câu và lặp lại từ tân ngữ thừa.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sai vì vi phạm từ mồi bắt buộc cố định vị trí của đề bài cho sẵn ('The girl with' bắt buộc đi liền cụm từ chỉ đặc điểm).</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Diễn đạt sai lệch nội dung bản chất cấu từ câu ghép.</span>",
+                    "Cấu trúc áp dụng: Mệnh đề quan hệ xác định bổ nghĩa cụm danh từ đứng đầu: <strong>The girl with + đặc điểm + whom + S + V + be + Adj</strong>.",
+                    "Dựa vào cụm từ mồi 'The girl with', ta điền tiếp đặc điểm mái tóc 'blond hair'. Sử dụng đại từ quan hệ thay thế tân ngữ chỉ người 'whom' dẫn dắt hành động trò chuyện vế sau cùng tính từ bổ trợ ngữ cảnh kết bài tự nhiên."
+                ]
+            },
+            {
+                id: 100,
+                q: "Question 100: You may get lost, so take a map with you.<br>→ Take a map _______",
+                o: [
+                    "A. with you in case you get lost.",
+                    "B. with you in case you may get lost.",
+                    "C. in case you get lost, so take a map.",
+                    "D. with you in case you will get lost."
+                ],
+                c: "A. with you in case you get lost.",
+                e: [
+                    "Dịch nghĩa câu gốc: Bạn có thể sẽ bị lạc đường đấy, vì vậy hãy mang theo một tấm bản đồ bên mình.",
+                    "Phân tích từ loại và cấu trúc ngữ pháp của các phương án:<br>" +
+                    "<span class='sub-opt'>- <strong>Phương án A:</strong> Đúng cấu trúc phòng hờ một sự việc có khả năng xảy ra ở hiện tại/tương lai với 'in case'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án B:</strong> Sai quy tắc ngữ pháp vì trong mệnh đề đứng sau 'in case' tuyệt đối không được dùng động từ khuyết thiếu chỉ khả năng 'may/might'.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án C:</strong> Sắp xếp từ đảo lộn vi phạm nghiêm trọng cấu từ logic liên từ.</span>" +
+                    "<span class='sub-opt'>- <strong>Phương án D:</strong> Sai vì sau 'in case' phòng hờ hiện tại/tương lai không dùng trợ động từ tương lai 'will' (chia hiện tại đơn).</span>",
+                    "Cấu trúc áp dụng: Công thức liên từ chỉ sự phòng hờ phòng bị: <strong>Mệnh đề hành động chuẩn bị + in case + S + V (Hiện tại đơn)</strong> (Mang nghĩa: Hãy làm gì đó để phòng hờ trường hợp...).",
+                    "Hành động chuẩn bị là 'Take a map with you', liên từ nối 'in case' đứng giữa, mệnh đề phòng hờ phía sau bỏ từ 'may' đi và chia hiện tại đơn là 'you get lost'."
+                ]
+            }
+        ];
+
+        let log = {};
+        function render() {
+            const container = document.getElementById('quiz-box');
+            container.innerHTML = '';
+            quizData.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'card-item';
+                card.id = `card-${item.id}`;
+                card.innerHTML = `
+                    <div class="card-title">${item.q}</div>
+                    <div class="options-box">
+                        ${item.o.map(opt => `<button class="option-node" onclick="check(${item.id}, '${opt}', this)">${opt}</button>`).join('')}
+                    </div>
+                    <div class="exp-container" id="exp-${item.id}">
+                        <div class="exp-header">💡 PHÂN TÍCH GIẢI THÍCH CHI TIẾT TỪ MS LÊ HẰNG ENGLISH:</div>
+                        <div class="exp-row"><strong>Bước 1: Dịch nghĩa toàn bộ câu hỏi gốc ban đầu:</strong><br>${item.e[0]}</div>
+                        <div class="exp-row"><strong>Bước 2: Phân tích ngữ pháp từ loại 4 phương án lựa chọn:</strong><br>${item.e[1]}</div>
+                        <div class="exp-row"><strong>Bước 3: Tại sao phương án chọn chuẩn xác nhất:</strong><br>${item.e[2]}</div>
+                        <div class="exp-row"><strong>Bước 4: Tại sao 3 phương án còn lại hoàn toàn SAI cấu trúc/ngữ cảnh:</strong><br>${item.e[3]}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        let audioCtx = null;
+        function playTone(type) {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            if (type === 'good') {
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else {
+                osc.frequency.setValueAtTime(160, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        function check(id, selected, btn) {
+            const item = quizData.find(x => x.id === id);
+            const box = btn.parentElement;
+            box.querySelectorAll('.option-node').forEach(b => b.classList.add('locked'));
+            
+            if (selected === item.c) {
+                btn.classList.add('correct-state'); playTone('good'); triggerFx();
+                log[id] = true;
+            } else {
+                btn.classList.add('wrong-state'); playTone('bad');
+                log[id] = false;
+                box.querySelectorAll('.option-node').forEach(b => {
+                    if (b.innerText === item.c) b.classList.add('correct-state');
+                });
+            }
+            document.getElementById(`exp-${id}`).classList.add('active');
+            document.getElementById('bar-fill').style.width = `${(Object.keys(log).length / quizData.length) * 100}%`;
+        }
+
+        function showScore() {
+            if (Object.keys(log).length < quizData.length) {
+                alert("Con yêu ơi, con chưa hoàn thành hết tất cả các câu kìa! Hãy làm đầy đủ để xem điểm tổng kết nha con!"); return;
+            }
+            let score = Object.values(log).filter(x => x === true).length;
+            alert(`Chúc mừng con đã hoàn thành xuất sắc bài tập viết lại câu nâng cao! 🎉\nKết quả đạt được: ${score}/${quizData.length} câu chính xác! Hãy đọc kỹ từng bước phân tích giải thích để đi thi đạt điểm cao nhất nhé con!`);
+        }
+
+        const cv = document.getElementById('confetti-canvas'); const ctx = cv.getContext('2d'); let fx = [];
+        function resize() { cv.width = window.innerWidth; cv.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+        function triggerFx() {
+            for (let i = 0; i < 35; i++) {
+                fx.push({ x: Math.random() * cv.width, y: -10, r: Math.random() * 6 + 4, c: ['#2980B9','#E67E22','#27AE60','#8E44AD'][Math.floor(Math.random()*4)], vx: Math.random()*4-2, vy: Math.random()*3+3 });
+            }
+        }
+        function loop() {
+            ctx.clearRect(0,0,cv.width,cv.height);
+            fx.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+                if (p.y > cv.height) fx.splice(i, 1);
+            });
+            requestAnimationFrame(loop);
+        }
+        loop(); render();
+    </script>
+</body>
+</html>
